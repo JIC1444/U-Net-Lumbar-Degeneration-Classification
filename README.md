@@ -12,6 +12,14 @@ AX T2 EXAMPLE IMAGES
 They also provide a file with the coordinates of the degenerative disc along with the condition name as well as the severity of the damage to the disc. These include:
 IMAGES OF THE DEGENERATION TYPES WITH COORDINATES
 
+## Results
+The key information first - how did I do? My approach resulted in:
+-> 0.xx accuracy in identifying right/left neural foraminal narrowing and whether it was a normal/mild, moderate or severe case.
+-> 0.yy accuracy in identifying right/left subarticular stenosis and whether it was a normal/mild, moderate or severe case.
+-> 0.zz accuracy in identifying right/left spinal canal stenosis and whether it was a normal/mild, moderate or severe case.
+Overall this was a ___ method of identifying and classifying lumbar degeneration.
+On Kaggle this approach placed me at 
+
 ### My Approach
 The process of applying deep learning to a new problem is challenging. First of all, there are a wide array of model architectures to choose from - for image classification, convolutional neural networks (CNNs) are usually the preffered choice. Secondly the data must be processed in suitable way for the model to understand the images and what categories they fall into. Then there are many parameters and hyperparameters to consider, such as the model depth, i.e how many layers (and of which type) will work for the data and task at hand.
 
@@ -48,13 +56,13 @@ IMAGE OF NNUNET ARCHITECTURE
 
 Description of the nnunet architecture...
 
-This yeilded impressive segmentation masks of the provided images, however there was an issue. During training this message shows: Pseudo dice [0.7606,.., 0.0, nan, nan, nan, 0.0, 0.0, 0.4707, 0.4522, 0.4519, 0.3517,,,0, nan, nan] which gives the accuracy of the model in predicting each class in the segmentation mask, most have been removed here but the closer the value to 1, the better the model is in predicting that class, however there were nan values, which indicated that there were missing samples, so for example the model will never see an MRI image with severe l4 l5 right foraminal narrowing, so it cannot then go on to predict if an image contains this condition or not. This required me to go back and ensure that all classes were equally represented.
+This yeilded impressive segmentation masks of the provided images, however there was an issue. During training this message shows: Pseudo dice [0.7606,.., 0.0, nan, nan, nan, 0.0, 0.0, 0.4707, 0.4522, 0.4519, 0.3517,,,0, nan, nan] which gives the accuracy of the model in predicting each class in the segmentation mask, most have been removed here but the closer the value to 1, the better the model is in predicting that class, however there were nan values, which indicated that there were missing samples, so for example the model will never see an MRI image with severe l4 l5 right neural foraminal narrowing, so it cannot then go on to predict if an image contains this condition or not. This required me to go back and ensure that all classes were equally represented.
 
 
 ### Limitations In External Data
 There are few papers on the segmentation of the Axial T2 images to predict conditions in the lumbar region and their datasets are all request-only. To my knowledge there are no easily accessible segmentations of Axial T2 MRI scans. Due to this, I have had to use a regular DenseNet CNN to classify the Axial MRIs as best possible.
 
-## Results
+
 
 
 
