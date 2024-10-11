@@ -18,14 +18,15 @@ The key information first - how did I do? My approach resulted in:
 -> 0.yy accuracy in identifying right/left subarticular stenosis and whether it was a normal/mild, moderate or severe case.
 -> 0.zz accuracy in identifying right/left spinal canal stenosis and whether it was a normal/mild, moderate or severe case.
 Overall this was a ___ method of identifying and classifying lumbar degeneration.
-On Kaggle this approach placed me at 
+Unfortunatley, due to an issue with the weekly GPU quota not resetting when expected, I could not make my final submission within the deadline - so a late submission was made on 13-10-2024.
+On Kaggle this approach would have placed me at 
 
 ### My Approach
 The process of applying deep learning to a new problem is challenging. First of all, there are a wide array of model architectures to choose from - for image classification, convolutional neural networks (CNNs) are usually the preffered choice. Secondly the data must be processed in suitable way for the model to understand the images and what categories they fall into. Then there are many parameters and hyperparameters to consider, such as the model depth, i.e how many layers (and of which type) will work for the data and task at hand.
 
-My first approaches to this problem consisted of 5-10 layered convolutional neural networks coded in Pytorch. This is where I made my first mistake - I took the time to test and trial different model architectures when there exist models which have been trained on millions of images which can be loaded and used with a line of code. I learned the important lesson that I don't have to write everything from the ground up and it is nessecary to use others' work and research to inform my own. However while I saw some initial improvement, the model still failed to achieve high levels of accuracy - something was missing.
+My first approaches to this problem consisted of 5-10 layered convolutional neural networks coded in Pytorch. This is was a learning moment for me, I do not have to produce all of my results from scratch. Taking the time to test and trial different model architectures I have come up with when many brilliant engineers have created models which have been fine-tuned and trained on millions of images exist for the purpose of furthering others' research. I put models such as the ResNet18, ResNet152, EfficientNetB0 and DenseNet169 to work on my existing data pipeline. However while I saw some initial improvement, the model still failed to achieve high levels of accuracy - something was missing.
 
-Now that I had hit this roadblock, I started to read more and more scientific literature around deep learning in biomedical image classification and found why my models hadn't performed all too well - CNNs fail to capture 'local features' in an image, therefore lack the spatial understanding of the relationships between organs, bones and how damage to these features look in biomedical images. In 2015 a revolutionary paper presenting a new architecture was published which adressed the aforementioned issues of the CNN. This architecture is called the U-Net (named for its U shape) and I will briefly explain how it works.
+Coming back to the learning moment from before, I started to read more and more scientific literature around deep learning in biomedical image classification and found why my models hadn't performed all too well - CNNs fail to capture 'local features' in an image, therefore lack the spatial understanding of the relationships between organs, bones and how damage to these features look in biomedical images. In 2015 a revolutionary paper presenting a new architecture was published which adressed the aforementioned issues of the CNN. This architecture is called the U-Net (named for its U shape) and I will briefly explain how it works.
 
 IMAGE OF UNET ARCHITECTURE
 
@@ -50,7 +51,7 @@ IMAGE OF SEGMENTED SPINE RSNA.
 And we observe that it did a pretty good job! This is ample to move on to the next stage of segmenting the image, which is segmenting the discs in the image. My approach was to do this using the coordinates provided in the competition to make an educated guess to where the disc should be. Here's some examples of what I managed to generate for all N MRI scans.
 
 ### nnU-Net Model
-Now, my original idea was to now use a second U-Net similar to the one used to segment the vertebrae and then use a CNN to classify the conditions and severities, however there is a very clever pre-built model by "" called the nnU-Net, which ... It is made for people with no programming experience and configures all parameters and hyperparameters for the user, due to its ease of use, I highly reccomend this as a base model in other biomedical image classification tasks.\
+Now, my original idea was to now use a second U-Net similar to the one used to segment the vertebrae and then use a CNN to classify the conditions and severities, however there is a very clever pre-built model by "" called the nnU-Net, which ... It is made for people with no programming experience and configures all parameters and hyperparameters for the user, due to its ease of use, I highly reccomend this as a base model in other biomedical image classification tasks.
 
 IMAGE OF NNUNET ARCHITECTURE
 
@@ -60,7 +61,7 @@ This yeilded impressive segmentation masks of the provided images, however there
 
 
 ### Limitations In External Data
-There are few papers on the segmentation of the Axial T2 images to predict conditions in the lumbar region and their datasets are all request-only. To my knowledge there are no easily accessible segmentations of Axial T2 MRI scans. Due to this, I have had to use a regular DenseNet CNN to classify the Axial MRIs as best possible.
+There are few papers on the segmentation of the Axial T2 images to predict conditions in the lumbar region and their datasets are all request-only. To my knowledge there are no easily accessible segmentations of Axial T2 MRI scans. Due to this as well as the encroaching deadline, my approach to this was to create an extremely primitive segmentation mask which just segmented a 10x10 box around the coordinates given in the RSNA data, then running this segmentation mask and the original image through the nnU-Net.
 
 
 
