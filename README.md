@@ -2,6 +2,7 @@
 
 ## Competition Overview
 The lumbar reigion of the spine is a major cause of pain and disability worldwide, infact it is the leading cause of disability with around 600 million people suffering from the varying conditions arising from degeneration in the lumbar discs. The goal of the competition is to use deep learning methods to accurately and reliably predict whether the patient has a condition and the level of severity of said condition. 
+
 The RSNA provides a dataset of N studies (patients) MRI scans with three differing camera settings/positions, these being Sagittal T1, Sagittal T2/STIR and Axial T2.
 A sagittal T1 image is taken from the sagittal plane of the body (i.e side on) and the T1 indicates that fat is more visible in the scan.
 SAGITTAL T1 EXAMPLE IMAGES
@@ -17,9 +18,8 @@ The key information first - how did I do? My approach resulted in:
 -> 0.xx accuracy in identifying right/left neural foraminal narrowing and whether it was a normal/mild, moderate or severe case.
 -> 0.yy accuracy in identifying right/left subarticular stenosis and whether it was a normal/mild, moderate or severe case.
 -> 0.zz accuracy in identifying right/left spinal canal stenosis and whether it was a normal/mild, moderate or severe case.
-Overall this was a ___ method of identifying and classifying lumbar degeneration.
 Unfortunatley, due to an issue with the weekly GPU quota not resetting when expected, I could not make my final submission within the deadline - so a late submission was made on 13-10-2024.
-On Kaggle this approach would have placed me at 
+On Kaggle this approach would have placed me at (still issues with gpu quota persist 17/10/24)
 
 ### My Approach
 The process of applying deep learning to a new problem is challenging. First of all, there are a wide array of model architectures to choose from - for image classification, convolutional neural networks (CNNs) are usually the preffered choice. Secondly the data must be processed in suitable way for the model to understand the images and what categories they fall into. Then there are many parameters and hyperparameters to consider, such as the model depth, i.e how many layers (and of which type) will work for the data and task at hand.
