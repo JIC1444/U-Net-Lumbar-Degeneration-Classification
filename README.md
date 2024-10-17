@@ -13,6 +13,8 @@ AX T2 EXAMPLE IMAGES
 They also provide a file with the coordinates of the degenerative disc along with the condition name as well as the severity of the damage to the disc. These include:
 IMAGES OF THE DEGENERATION TYPES WITH COORDINATES
 
+Note: I decided early on that the premise of the competition was very interesting and I would persue the project more long-term (finishing past the deadline) however, the project naturally came to an end close to the deadline - which led me to attempting to make a submission, only to have issues with the GPU quota on Kaggle not resetting when advertised. using limited data and compute power/time to achieve a goal. In biomedical image segmentation, there is often very limited labelled data due to the expert-level and time consuming nature of segmenting MRI scans. Which is why the premise stuck out to me since the competition rules emulate that of a real life situation.
+
 ## Results
 The key information first - how did I do? My approach resulted in:
 -> 0.xx accuracy in identifying right/left neural foraminal narrowing and whether it was a normal/mild, moderate or severe case.
