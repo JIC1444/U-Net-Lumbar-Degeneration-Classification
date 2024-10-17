@@ -5,7 +5,7 @@ The lumbar reigion of the spine is a major cause of pain and disability worldwid
 
 The RSNA provides a dataset of N studies (patients) MRI scans with three differing camera settings/positions, these being Sagittal T1, Sagittal T2/STIR and Axial T2.
 A sagittal T1 image is taken from the sagittal plane of the body (i.e side on) and the T1 indicates that fat is more visible in the scan.
-SAGITTAL T1 EXAMPLE IMAGES
+
 A sagittal T2/STIR image is also taken from the sagittal plane, however the T2/STIR indicates that water is more visible in the scan, hence revealing the spinal cord more.
 SAG T2 EXAMPLE IMAGES
 An axial T2 image is taken from the axial plane (i.e top down of the body).
@@ -37,8 +37,8 @@ IMAGE OF THE ORIGINAL ROAD AND SEGMENTED ROAD
 
 As seen, the image is coloured accordingly to what the pixel represents - .... . 
 
-Now applying this to the images of the spine - here is a fully segmented image of the spine 
-SEGMENTED IMAGE OF A SPINE MRI
+Now applying this to the images of the spine - here the original image and the fully segmented image of the spine:
+<img src="https://github.com/user-attachments/assets/e7282fb6-b80a-4467-8e96-7b850a678631" style="filter: grayscale(100%);"> <img src="https://github.com/user-attachments/assets/518cf58e-e088-4f62-8147-3574d08aaf2b" style="filter: grayscale(100%);">
 
 The competition dictates that you may not use the internet to access anything external while running the submission notebook, however there is no rule on using publically avaliable data before the submission notebook is run on the Kaggle website. With that in mind, I was inspired by Kaggle user "" and their notebook "" which used a U-Net architecture with a ResNet backbone to train a model to label the vertebrae in an image of the spine, this used data from the Spider dataset. Here is what the evolution of the model through its training looked like:
 
