@@ -46,11 +46,20 @@ First, every single segmentation my program successfully produced was fed into t
 The train and validation dataset consisted of ~3000 sagittal T1 scans, ~2000 sagittal T2/STIR scans and X axial T2 scans. All scans ranged in quality, as shown below:
 
 In spite of said inaccuracies, the pipeline achieved...
--> 54% accuracy on Sagittal T1 scans, identifying right/left neural foraminal narrowing and whether it was a normal/mild, moderate or severe case.
+-> 43.7% accuracy on Sagittal T1 scans, identifying right/left neural foraminal narrowing and whether it was a normal/mild, moderate or severe case.
+
+_Epoch 144_
+_Current learning rate: 0.00869_
+_Pseudo dice [0.8177, 0.5535, 0.5744, 0.5374, 0.4475, 0.3228, 0.2098, 0.2068, 0.5067, 0.4215, 0.1714, 0.0, nan, 0.0011, 0.5015, 0.412, 0.603, 0.5684, 0.5332, 0.4877, 0.4564, 0.3469, 0.5348, 0.471, 0.4174, 0.3639, nan, nan, 0.0, 0.1444, 0.5782, 0.8237, 0.7893, 0.7822, 0.7286, 0.6587, 0.3636]_
+
 -> 0.yy accuracy in identifying right/left subarticular stenosis and whether it was a normal/mild, moderate or severe case.
+
+
 -> 0.zz accuracy in identifying right/left spinal canal stenosis and whether it was a normal/mild, moderate or severe case.
 
-The runtime was around 16 hours of GPU usage.
+
+
+The combined runtime was around 16 hours of GPU usage.
 
 ### My Approach
 The process of applying deep learning to a new problem is challenging. First of all, there are a wide array of model architectures to choose from - for image classification, convolutional neural networks (CNNs) are usually the preffered choice. Secondly the data must be processed in suitable way for the model to understand the images and what categories they fall into. Then there are many parameters and hyperparameters to consider, such as the model depth, i.e how many layers (and of which type) will work for the data and task at hand.
