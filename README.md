@@ -1,27 +1,56 @@
-# RSNA Lumbar Degeneration Classification Competition
+# Radiological Society of North America (RSNA) Lumbar Degeneration Classification Competition
 
-## Competition Overview
+## Overview
 The lumbar reigion of the spine is a major cause of pain and disability worldwide, infact it is the leading cause of disability with around 600 million people suffering from the varying conditions arising from degeneration in the lumbar discs. The goal of the competition is to use deep learning methods to accurately and reliably predict whether the patient has a condition and the level of severity of said condition. 
 
-The RSNA provides a dataset of N studies (patients) MRI scans with three differing camera settings/positions, these being Sagittal T1, Sagittal T2/STIR and Axial T2.
-A sagittal T1 image is taken from the sagittal plane of the body (i.e side on) and the T1 indicates that fat is more visible in the scan.
+The RSNA provides a dataset of 1,975 studies (patients) MRI scans with three differing types: Sagittal T1, Sagittal T2/STIR and Axial T2.
 
-A sagittal T2/STIR image is also taken from the sagittal plane, however the T2/STIR indicates that water is more visible in the scan, hence revealing the spinal cord more.
-SAG T2 EXAMPLE IMAGES
-An axial T2 image is taken from the axial plane (i.e top down of the body).
-AX T2 EXAMPLE IMAGES
-They also provide a file with the coordinates of the degenerative disc along with the condition name as well as the severity of the damage to the disc. These include:
-IMAGES OF THE DEGENERATION TYPES WITH COORDINATES
+A sagittal T1 image is taken from the sagittal plane of the body (side on) and T1 indicates that fat is more visible in the scan, due to the shorter times between pulses in the MRI scans.
 
-Note: I decided early on that the premise of the competition was very interesting and I would persue the project more long-term (finishing past the deadline) however, the project naturally came to an end close to the deadline - which led me to attempting to make a submission, only to have issues with the GPU quota on Kaggle not resetting when advertised. using limited data and compute power/time to achieve a goal. In biomedical image segmentation, there is often very limited labelled data due to the expert-level and time consuming nature of segmenting MRI scans. Which is why the premise stuck out to me since the competition rules emulate that of a real life situation.
+![ST1_0000_0000](https://github.com/user-attachments/assets/e80b2c67-f68e-47ea-b138-f28575ba272f)
+![ST1_0021_0000](https://github.com/user-attachments/assets/46cbd5d5-f174-45d8-a2a8-26fdbd1d0049)
+![ST1_0036_0000](https://github.com/user-attachments/assets/dadfc368-d26d-492e-aa53-45760f41eb85)
+![ST1_0029_0000](https://github.com/user-attachments/assets/49b0b2ac-2460-49b6-98ba-1649f8e2f54a)
+
+
+A sagittal T2/STIR image is also taken from the sagittal plane, the T2/STIR indicates that water is more visible in the scan, hence revealing the spinal cord more - due to the longer times between pulses in the MRI scans.
+
+![ST2_0265_0000](https://github.com/user-attachments/assets/29d57c7f-296e-455c-ad29-d6dc5c78c346)
+![ST2_0272_0000](https://github.com/user-attachments/assets/d9c3462f-ee60-4839-a9fc-b79a1926fdd5)
+![ST2_0318_0000](https://github.com/user-attachments/assets/6810f71c-9665-40a7-8aff-c1ee44ab67df)
+![ST2_0346_0000](https://github.com/user-attachments/assets/57b928c2-5022-4846-8c75-59041c0bb5f3)
+
+
+An axial T2 image is taken from the axial plane (i.e top down of the body), the T2 again indicating that water is more visible than fat in the scan.
+
+![AX2_0003_0000](https://github.com/user-attachments/assets/babb2988-232f-4ffb-be5b-bbc8bef63933)
+![AX2_0023_0000](https://github.com/user-attachments/assets/3411a878-4228-43cc-ad1b-befefcd27385)
+![AX2_0028_0000](https://github.com/user-attachments/assets/421b8866-3755-4d4d-a7d0-a6b4b5247681)
+![AX2_0067_0000](https://github.com/user-attachments/assets/80f1ec3d-68e3-41e4-aa41-34ec2faa9368)
+
+Two files are provided with the respect to these images. One contains coordinates of the degenerative disc on a specific MRI scan, the other defines the name and severity of the patient's lumbar conditions along all 50+ scans of the study. Here's an example of a few MRI scans of a patient with 
+
+
+## Issues with data availibility
+Biomedical image classification requires segmentation masks, which essentially give a label to every pixel in a given image, this was not given in the data from RSNA, however if suitable public data was availiable, it can be used to pre-train a U-Net model to segment new images. Of course such segmentations will not be perfect, however given the dire performance of regular convolutional neural networks, the descision was made to use this approach. Unfortunatley, public data segmenting Axial T2 MRI scans is not readily available/easily accessible - this certainly has an impact on the accuracy of the model.
+Sagittal T1 and T2 MRI scans are widely availible, hence models can be trained
+
 
 ## Results
-The key information first - how did I do? My approach resulted in:
--> 0.xx accuracy in identifying right/left neural foraminal narrowing and whether it was a normal/mild, moderate or severe case.
+### Trial run
+To test the pipeline, a run of just 50 sagittal T1 scans was used and resulted in
+
+
+### First run
+First, every single segmentation my program successfully produced was fed into the nnUNet model, despite many incorrect and inaccurate masks. 
+The train and validation dataset consisted of ~3000 sagittal T1 scans, ~2000 sagittal T2/STIR scans and X axial T2 scans. All scans ranged in quality, as shown below:
+
+In spite of said inaccuracies, the pipeline achieved...
+-> 54% accuracy on Sagittal T1 scans, identifying right/left neural foraminal narrowing and whether it was a normal/mild, moderate or severe case.
 -> 0.yy accuracy in identifying right/left subarticular stenosis and whether it was a normal/mild, moderate or severe case.
 -> 0.zz accuracy in identifying right/left spinal canal stenosis and whether it was a normal/mild, moderate or severe case.
-Unfortunatley, due to an issue with the weekly GPU quota not resetting when expected, I could not make my final submission within the deadline - so a late submission was made on 13-10-2024.
-On Kaggle this approach would have placed me at (still issues with gpu quota persist 17/10/24)
+
+The runtime was around 16 hours of GPU usage.
 
 ### My Approach
 The process of applying deep learning to a new problem is challenging. First of all, there are a wide array of model architectures to choose from - for image classification, convolutional neural networks (CNNs) are usually the preffered choice. Secondly the data must be processed in suitable way for the model to understand the images and what categories they fall into. Then there are many parameters and hyperparameters to consider, such as the model depth, i.e how many layers (and of which type) will work for the data and task at hand.
