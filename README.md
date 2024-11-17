@@ -28,7 +28,32 @@ An axial T2 image is taken from the axial plane (i.e top down of the body), the 
 <img src="https://github.com/user-attachments/assets/421b8866-3755-4d4d-a7d0-a6b4b5247681" width="200">
 <img src="https://github.com/user-attachments/assets/80f1ec3d-68e3-41e4-aa41-34ec2faa9368" width="200">
 
-Two files are provided with the respect to these images. One contains coordinates of the degenerative disc on a specific MRI scan, the other defines the name and severity of the patient's lumbar conditions along all 50+ scans of the study. Here's an example of a few MRI scans of a patient with *****
+Two files are provided with the respect to these images. One contains coordinates of the degenerative disc on a specific MRI scan, the other defines the name and severity of the patient's lumbar conditions along all 50+ scans of the study. Here's an example of a few MRI scans of a patient with conditions:
+
+| spinal_canal_stenosis_l1_l2 | spinal_canal_stenosis_l2_l3 | spinal_canal_stenosis_l3_l4 | spinal_canal_stenosis_l4_l5 | spinal_canal_stenosis_l5_s1 |
+|-----------------------------|-----------------------------|-----------------------------|-----------------------------|-----------------------------|
+| Normal/Mild                 | Normal/Mild                 | Normal/Mild                 | Normal/Mild                 | Normal/Mild                 |
+
+| left_neural_foraminal_narrowing_l1_l2 | left_neural_foraminal_narrowing_l2_l3 | left_neural_foraminal_narrowing_l3_l4 | left_neural_foraminal_narrowing_l4_l5 | left_neural_foraminal_narrowing_l5_s1 |
+|---------------------------------------|---------------------------------------|---------------------------------------|---------------------------------------|---------------------------------------|
+| Normal/Mild                           | Normal/Mild                           | Normal/Mild                           | Moderate                              | Normal/Mild                           |
+
+| right_neural_foraminal_narrowing_l1_l2 | right_neural_foraminal_narrowing_l2_l3 | right_neural_foraminal_narrowing_l3_l4 | right_neural_foraminal_narrowing_l4_l5 | right_neural_foraminal_narrowing_l5_s1 |
+|----------------------------------------|----------------------------------------|----------------------------------------|----------------------------------------|----------------------------------------|
+| Normal/Mild                            | Normal/Mild                            | Moderate                               | Moderate                               | Normal/Mild                            |
+
+| left_subarticular_stenosis_l1_l2 | left_subarticular_stenosis_l2_l3 | left_subarticular_stenosis_l3_l4 | left_subarticular_stenosis_l4_l5 | left_subarticular_stenosis_l5_s1 |
+|----------------------------------|----------------------------------|----------------------------------|----------------------------------|----------------------------------|
+| Normal/Mild                      | Normal/Mild                      | Normal/Mild                      | Moderate                         | Normal/Mild                      |
+
+| right_subarticular_stenosis_l1_l2 | right_subarticular_stenosis_l2_l3 | right_subarticular_stenosis_l3_l4 | right_subarticular_stenosis_l4_l5 | right_subarticular_stenosis_l5_s1 |
+|-----------------------------------|-----------------------------------|-----------------------------------|-----------------------------------|-----------------------------------|
+| Normal/Mild                       | Normal/Mild                       | Normal/Mild                       | Normal/Mild                       | Normal/Mild                       |
+
+
+<img src="https://github.com/user-attachments/assets/c2393da5-187d-4077-ab02-7649acc25eb0" width="300">
+<img src="https://github.com/user-attachments/assets/f5960680-f6d5-4ac6-bb2a-2f1be211030d" width="300">
+<img src="https://github.com/user-attachments/assets/6d857e34-20f8-4652-8265-29d0a5aae1a0" width="300">
 
 
 
