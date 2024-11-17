@@ -119,10 +119,12 @@ While this performance leaves alot to be desired, the results on such a small sa
 First, every single segmentation my program successfully produced was fed into the nnUNet model, despite many incorrect and inaccurate masks. 
 The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 sagittal T2/STIR scans and ~12,000 axial T2 scans. All segmentation masks ranged in quality, as shown below:
 
-
-
-
-In spite of displayed inaccuracies, the model achieved:
+<p align="center">
+  <img src="" width="200">
+  <img src="" width="200">    
+  <img src="" width="200">
+  <img src="" width="200">
+</p>
 
 ## Initial Run of nnU-Net on Biomedical Image Classification Task
 
@@ -182,19 +184,17 @@ In spite of displayed inaccuracies, the model achieved:
 ---
 
 #### Axial T2 Scans
-- **Accuracy**: 16.6% on normal cases; 2.5% including all classes.
-- **Classification**: Left spinal canal stenosis only, graded as Normal.
-
-#### Observations:
-- **Challenge**: Low accuracy (2.5%) across nearly 40 classes using only basic segmentation labels, suggesting the need for better-quality segmentation data.
-- **Importance of Quality Data**: Even basic segmentation masks heavily impact model performance, underscoring the potential value of a high-quality, widely available biomedical segmentation dataset.
+- **Observations:**
+    - Low accuracy (2.5%) across nearly 40 classes using only basic segmentation labels, suggesting the need for better-quality segmentation data.
+    - Even basic segmentation masks heavily impact model performance, underscoring the potential value of a high-quality, widely available biomedical segmentation dataset.
+  
+> **Note:** Going forward, the Axial MRI scans will no longer be considered, due to this roadblock of no segmentations.
 
 ---
 
 ### Runtime and Efficiency
-
-- **Total GPU Runtime**: ~16 hours. Best model accuracy was achieved earlier, around 10 hours. Future runs may be optimized by early stopping based on accuracy improvements.
-
+- **Total CPU Runtime:** ~2 hours, dedicated to pretraining the U-Net and preprocessing MRI scans. 
+- **Total GPU Runtime:** ~16 hours. However the best model accuracy was achieved earlier in the training, if early stopping was implemented, the training time was around 10 hours. 
 ---
 
 ### Additional Observations
