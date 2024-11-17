@@ -3,7 +3,7 @@
 ## Overview
 The lumbar reigion of the spine is a major cause of pain and disability worldwide, infact it is the leading cause of disability with around 600 million people suffering from the varying conditions arising from degeneration in the lumbar discs. The RSNA hosted this competition from June-September 2024 with the hopes that “Competitors will ... build algorithms that advance our ability to accurately and rapidly identify and classify lumbar degenerative spine disease. Such tools have the potential to improve current state-of-the art technology and transform the future of degenerative spine diagnosis and management”. 
 
-The goal for the entrants of the competition is to use deep learning methods to accurately and reliably predict whether the patient has lumbar degeneration as well as the level of severity of said condition. The RSNA provides a dataset of 1,975 studies (patients) MRI scans with three differing types: Sagittal T1, Sagittal T2/STIR and Axial T2.
+The goal for the entrants of the competition is to use deep learning methods to accurately and reliably predict whether the patient has lumbar degeneration as well as the level of severity of said condition. The RSNA provides a dataset of 1,975 studies-worth of MRI scans with three differing types: Sagittal T1, Sagittal T2/STIR and Axial T2 (each study has 50 or more scans).
 
 A sagittal T1 image is taken from the sagittal plane of the body (side on) and T1 indicates that fat is more visible in the scan, due to the shorter times between pulses in the MRI scans.
 
@@ -34,8 +34,9 @@ Two files are provided with the respect to these images. One contains coordinate
 
 
 ## Issues with data availibility
-Biomedical image classification requires segmentation masks, which essentially give a label to every pixel in a given image, this was not given in the data from RSNA, however if suitable public data was availiable, it can be used to pre-train a U-Net model to segment new images. Of course such segmentations will not be perfect, however given the dire performance of regular convolutional neural networks (CNNs), the descision was made to use this approach. Unfortunatley, public data segmenting Axial T2 MRI scans is not readily available/easily accessible - this certainly has an impact on the accuracy of the model.
-Sagittal T1 and T2 MRI scans are widely availible, hence models can be trained to create segmentations of the vertebrae on new MRI scans.
+Biomedical image classification requires segmentation masks, which essentially give a label to every pixel in a given image, this was not given in the data from RSNA, however if suitable public data was availiable, it can be used to pre-train a U-Net model to segment new images. Of course such segmentations will not be perfect, however given the limited performance of regular convolutional neural networks (CNNs), the descision was made to use this approach. 
+
+Unfortunatley, public data segmenting Axial T2 MRI scans is not readily available/easily accessible - this certainly has an impact on the accuracy of the model. However, segmented Sagittal T1 and T2 MRI scans are  availible, hence models can be trained to create segmentations of the vertebrae on new MRI scans.
 
 
 ## Results
@@ -61,12 +62,12 @@ While this performance leaves alot to be desired, the results on such a small sa
 
 ### First run
 First, every single segmentation my program successfully produced was fed into the nnUNet model, despite many incorrect and inaccurate masks. 
-The train and validation dataset consisted of ~3000 sagittal T1 scans, ~2000 sagittal T2/STIR scans and X axial T2 scans. All segmentation masks ranged in quality, as shown below:
+The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 sagittal T2/STIR scans and ~12,000 axial T2 scans. All segmentation masks ranged in quality, as shown below:
 
 
 
 
-In spite of displayed inaccuracies, the pipeline achieved:
+In spite of displayed inaccuracies, the model achieved:
 
 -> **43.7% accuracy on Sagittal T1 scans**, identifying right/left neural foraminal narrowing and whether it was a normal/mild, moderate or severe case. Below is two label/prediction pairs produced.
 
@@ -77,13 +78,15 @@ In spite of displayed inaccuracies, the pipeline achieved:
 <img src="https://github.com/user-attachments/assets/e3f232fa-4ce9-4f61-8e7b-ec0ccfd68595" width="200">
 
 
-The model misses more severe conditions, as seen in the first pair, where the prediction shows the model wrongly identified a moderate condition for a normal/mild one, it did however manage to recognise the other two moderate conditions. A surprisingly interesting effect of the model is that it improves on the previous U-Net's and the automatic box labelling algorithm's ability to segment the vertebrae and discs! 
+The model misses more severe conditions, as seen in the first pair, where the prediction shows the model wrongly identified a moderate condition for a normal/mild one, it did however manage to recognise the other two moderate conditions. A surprisingly interesting effect of the model is that it improves on the previous U-Net's and the automatic box labelling algorithm's ability to segment the vertebrae and discs! This can be quite obviously seen as the prediction segmentation masks are much smoother and fuller than the labels. 
+
+This will actually confuse the model and cause a lower performance, since the model is correctly (in terms of the raw MRI image) finding the pixels which contain a vertebrae and a disc, however then when compared to the label mask, it is punished for many pixels which are deemed wrong by the label, but are actually correct! _Perhaps a second model could be trained on the predictions of this model, eliminating this cause of inaccuracy?_
 
 Removing the 0.0s from the average gives an accuracy of **48%** _on all well represented classes within the dataset._
 
 -> **50.3% accuracy on Sagittal T2/STIR scans** identifying right/left subarticular stenosis and whether it was a normal/mild, moderate or severe case. Below are two label (left) and predictions
 
-A better performance than 
+A better performance than the previous Sagittal T1 scans, this could be due to the fact that the dataset used to generate the segmentations was made up of just Sagittal T2/STIR scans, so the segmentations masks are slightly more accurate than the Sagittal T1 scans, or it could be that the Sagittal T2 scan is clearer than the Sagittal T1 scan.
 
 and there were no nans in the pseudo dice, but there was a 3% and a 0% suggesting that these classes were underrepresented. However this is a promising start to the segmentation of such images.
 
