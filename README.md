@@ -7,11 +7,15 @@ The goal for the entrants of the competition is to use deep learning methods to 
 
 A sagittal T1 image is taken from the sagittal plane of the body (side on) and T1 indicates that fat is more visible in the scan, due to the shorter times between pulses in the MRI scans.
 
-<img src="https://github.com/user-attachments/assets/e80b2c67-f68e-47ea-b138-f28575ba272f" width="200">
-<img src="https://github.com/user-attachments/assets/46cbd5d5-f174-45d8-a2a8-26fdbd1d0049" width="200">
-<img src="https://github.com/user-attachments/assets/dadfc368-d26d-492e-aa53-45760f41eb85" width="200">
-<img src="https://github.com/user-attachments/assets/49b0b2ac-2460-49b6-98ba-1649f8e2f54a" width="200">
-
+<p align="center">
+  <figure>
+    <img src="https://github.com/user-attachments/assets/e80b2c67-f68e-47ea-b138-f28575ba272f" width="200">
+    <img src="https://github.com/user-attachments/assets/46cbd5d5-f174-45d8-a2a8-26fdbd1d0049" width="200">
+    <img src="https://github.com/user-attachments/assets/dadfc368-d26d-492e-aa53-45760f41eb85" width="200">
+    <img src="https://github.com/user-attachments/assets/49b0b2ac-2460-49b6-98ba-1649f8e2f54a" width="200">
+    <figcaption style="text-align: center;">Comparison of Different Models</figcaption>
+  </figure>
+</p>
 
 A sagittal T2/STIR image is also taken from the sagittal plane, the T2/STIR indicates that water is more visible in the scan, hence revealing the spinal cord more - due to the longer times between pulses in the MRI scans.
 
