@@ -180,6 +180,7 @@ The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 s
 - **Potential Improvements**:
   - Again, the same as Sagittal T1 scans, increase the quality of the scans, omitting potentially harmful ones.
   - Improve the distribution through augmentation.
+> By improving the class imbalance in the data, any skew of the accuracy due to the lack of moderate/severe cases will be gone.
 
 ---
 
