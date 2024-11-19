@@ -245,9 +245,15 @@ Further work may include:
 
 
 ## Appendix: Algorithimically Segementing the Images
+This process goes from this mask, produced by the pretrained U-Net, to a this segmentation mask, ready to be fed into the classification model.
+<p align="center">
+<img src="" width="300">
+<img src="" width="300">
+<\p>
 
+
+First, the general process this algorithm follows.
 ```{p}
-
 """
 Label the masks with the vertebrae class as well as the disc class. (From either st1_classes or st2_classes
 General Process: -> Take the highest disc from the dataframe (l1_l2)
@@ -258,30 +264,35 @@ General Process: -> Take the highest disc from the dataframe (l1_l2)
 -> Label s1
 -> Compare the array of completed discs/vertebrae to the list of all discs
 -> Move up to staring vertebrae, until all discs/vertebrae are completed
--> Label the remaining vertebrae as "other_disc": 2 #The name for these is wrong, however is it unimportant for now.
+-> Label the remaining vertebrae as "other_vertebrae": 2.
 """
+```
 
+Using skimage, automatically label the islands (vertebrae) in the segmentation mask since the original image is a black and white (0 and 1) image (above). Then shift the pixel values outside of the range of the actual class values of degeneration (0-40).
+```{p}
 def auto_label_mask(mask):
     labeled_mask, num_features = label(mask) 
     return labeled_mask
     
 def correct_labels_for_overlap(mask, classes):
     #First change the auto-assigned background color(s) to 0.
-    unique, counts = np.unique(mask, return_counts=True)
-    sorted_indices = np.argsort(counts)[::-1] #Sort in descending order
+    sorted_indices = np.argsort(counts)[::-1] # Sort in descending order.
     class_values = classes.values()
-    for u in unique:
+    for u in np.unique(mask):
         if u == 0:
             continue
         if u in class_values:
-            mask[mask == u] = u + 70 #70 ensures the overlapping pixel value is now completely unique.
+            mask[mask == u] = u + 70 # Adding 70 ensures the automatically assigned pixel value is now completely unique.
     return mask
 
 def auto_label_and_correct_mask(mask, classes):
     color_mask = auto_label_mask(mask)
     corrected_color_mask = correct_labels_for_overlap(color_mask, classes)
     return corrected_color_mask
+```
 
+Now, using these different class values, find the 'highest' vertebrae in the mask - align this to a value and work down from there, assigning the actual class (pixel) values which are defined before.
+```{p}
 def disc_to_vert_and_class(highest_disc, condition):
     n = 15 if condition == "spinal_canal_stenosis" else 0
     if highest_disc == "l1_l2": return "l1", (32 - n)
@@ -306,8 +317,6 @@ def align_verts_to_val(highest_vert, vert_val):
         print(f"Vertebrae {highest_vert} invalid!")
     #There is no "s1" condition.
         
-import matplotlib.patches as patches
-
 def find_vert_with_coords(mask, x, y):
     central_x_est, central_y_est = int(x) - 11, int(y) - 8
     vert_val = mask[central_y_est, central_x_est]
@@ -399,21 +408,39 @@ def label_sag_mask(path, mask, chunk, classes, class_numbers_verts):
     for idx, bbox in enumerate(disc_bboxes):
         bottom, left, top, right = bbox
         passive_mask[bottom:top, left:right] = class_numbers_padded[idx]
-    merged_mask = np.where(class_mask > 0, class_mask, passive_mask)                                #no_discs = no_vertebrae - 1.
-    if 2 * no_verts - 3 != len(np.unique(merged_mask)) - 2: #Must follow the equation no_vertebrae + no_discs - classes[0, 1] == unique - classes[0, 1].
+    merged_mask = np.where(class_mask > 0, class_mask, passive_mask)
+    #Must follow the equation no_vertebrae + no_discs - classes[0, 1] == unique - classes[0, 1], where #no_discs = no_vertebrae - 1.
+    if 2 * no_verts - 3 != len(np.unique(merged_mask)) - 2: 
         return merged_mask, True
     else:
         return merged_mask, False
+```
 
+Segmenting degeneration loop (Runtime: ~2 minutes)
+```{p}
+# Execute the segmentation process on Sagittal T1 images.
+fail_rates = {"Successful": 0, "Fail to load": 0, "Fail within loop": 0}
+print(f"Labeling {len(st1_class_df.groupby(["series_id", "instance_number"]))} Sagittal T1 MRIs.")
 
-def save_mask_as_png(mask, fname, new_folder):
-    assert mask.shape == (224, 224)
-    fname = fname.replace("nnUNet_segments", new_folder).replace("npy", "png")
-    save_folder = "/".join(fname.split('/')[:-1])
-    os.makedirs(save_folder, exist_ok=True)
-    mask = mask.astype(np.uint8)
-    mask_pil = Image.fromarray(mask)
-    mask_pil.save(fname)
+for idx, chunk in st1_class_df.groupby(["series_id", "instance_number"]):
+    segment_path = os.path.join("nnUNet_segments", str(chunk["study_id"].values[0]),
+                                 str(chunk["series_id"].values[0]), f"{chunk["instance_number"].values[0]}.npy") 
+    if os.path.isfile(segment_path):
+        gray_mask = np.load(segment_path) #Is grayscale img.
+    else:
+        fail_rates["Fail to load"] = fail_rates["Fail to load"] + 1
+        continue
+    color_mask = auto_label_and_correct_mask(gray_mask, st1_classes)
+    png_path = segment_path.replace("npy", "png").replace("nnUNet_segments", "train_png")
+    sag_t1_mask, not_failed = label_sag_mask(path = png_path, mask = color_mask, chunk = chunk, classes = st1_classes, 
+                                    class_numbers_verts = [32, 33, 34, 35, 36, 37])
+    if not_failed:
+        fail_rates["Successful"] = fail_rates["Successful"] + 1
+        save_mask_as_png(sag_t1_mask, segment_path, 'nnUNet_segments_labeled')
+    elif not not_failed:
+        save_mask_as_png(sag_t1_mask, segment_path, 'nnUNet_segements_failed')
+        fail_rates["Fail within loop"] = fail_rates["Fail within loop"] + 1
+print(fail_rates)
 
 ```
 
