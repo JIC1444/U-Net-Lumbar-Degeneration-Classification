@@ -234,7 +234,7 @@ Taking the best performing group - Sagittal T2/STIR MRI scans, manually go throu
 
 
 ### Conclusions and further work
-While a great performance increase was observed from the original ResNet18 approach, it is important to remember that biomedical image segmentation requires a very high degree of accuracy, ensuring there are no misdiagnoses, potentially missing causes for their pain, or worse. I enjoyed learning about the advanced methods in segmentation and has most certainly improved my approach to deep learning problems - it is important to read others' research and look for way to improve performance on their work, or by combining multiple people's work together, rather than attempting to conquer the problem entirely by oneself.
+While a great performance increase was observed from the original ResNet18 approach, it is important to remember that biomedical image segmentation requires a very high degree of accuracy, ensuring there are no misdiagnoses leading to confusion about their pain, or worse. I enjoyed learning about the advanced methods in segmentation and has most certainly improved my approach to deep learning problems - it is important to read others' research and look for way to improve performance on their work, or by combining multiple people's work together, rather than attempting to conquer the problem entirely by oneself.
 
 This project has increased my knowledge of computer vision and these models and ideas I have learnt through the project have wide applications in research and industry, for example - self-driving cars.
 
@@ -244,7 +244,178 @@ Further work may include:
 
 
 
+## Appendix: Algorithimically Segementing the Images
 
+```{p}
+
+"""
+Label the masks with the vertebrae class as well as the disc class. (From either st1_classes or st2_classes
+General Process: -> Take the highest disc from the dataframe (l1_l2)
+-> Find the center and sides of the vertebrae
+-> Fill a rectangle below the disc, not overlapping the vertebrae below, representing the disc between the two vertebrae
+-> Append to an array when completed
+-> Repeat until l5_s1 is reached
+-> Label s1
+-> Compare the array of completed discs/vertebrae to the list of all discs
+-> Move up to staring vertebrae, until all discs/vertebrae are completed
+-> Label the remaining vertebrae as "other_disc": 2 #The name for these is wrong, however is it unimportant for now.
+"""
+
+def auto_label_mask(mask):
+    labeled_mask, num_features = label(mask) 
+    return labeled_mask
+    
+def correct_labels_for_overlap(mask, classes):
+    #First change the auto-assigned background color(s) to 0.
+    unique, counts = np.unique(mask, return_counts=True)
+    sorted_indices = np.argsort(counts)[::-1] #Sort in descending order
+    class_values = classes.values()
+    for u in unique:
+        if u == 0:
+            continue
+        if u in class_values:
+            mask[mask == u] = u + 70 #70 ensures the overlapping pixel value is now completely unique.
+    return mask
+
+def auto_label_and_correct_mask(mask, classes):
+    color_mask = auto_label_mask(mask)
+    corrected_color_mask = correct_labels_for_overlap(color_mask, classes)
+    return corrected_color_mask
+
+def disc_to_vert_and_class(highest_disc, condition):
+    n = 15 if condition == "spinal_canal_stenosis" else 0
+    if highest_disc == "l1_l2": return "l1", (32 - n)
+    elif highest_disc == "l2_l3": return "l2", (33 - n)
+    elif highest_disc == "l3_l4": return "l3", (34 - n)
+    elif highest_disc == "l4_l5": return "l4", (35 - n)
+    elif highest_disc == "l5_s1": return "l5", (36 - n)
+
+
+def align_verts_to_val(highest_vert, vert_val):
+    if highest_vert == "l1": 
+        return {"l1": vert_val + 0, "l2": vert_val + 1, "l3": vert_val + 2, "l4": vert_val + 3, "l5": vert_val + 4, "s1": vert_val + 5}
+    elif highest_vert == "l2": 
+        return {"l1": vert_val - 1, "l2": vert_val + 0, "l3": vert_val + 1, "l4": vert_val + 2, "l5": vert_val + 3, "s1": vert_val + 4}
+    elif highest_vert == "l3": 
+        return {"l1": vert_val - 2, "l2": vert_val - 1, "l3": vert_val + 0, "l4": vert_val + 1, "l5": vert_val + 2, "s1": vert_val + 3}
+    elif highest_vert == "l4": 
+        return {"l1": vert_val - 3, "l2": vert_val - 2, "l3": vert_val - 1, "l4": vert_val + 0, "l5": vert_val + 1, "s1": vert_val + 2}
+    elif highest_vert == "l5": 
+        return {"l1": vert_val - 4, "l2": vert_val - 3, "l3": vert_val - 2, "l4": vert_val - 1, "l5": vert_val + 0, "s1": vert_val + 1} 
+    else:
+        print(f"Vertebrae {highest_vert} invalid!")
+    #There is no "s1" condition.
+        
+import matplotlib.patches as patches
+
+def find_vert_with_coords(mask, x, y):
+    central_x_est, central_y_est = int(x) - 11, int(y) - 8
+    vert_val = mask[central_y_est, central_x_est]
+    if vert_val == 0:
+        offsets = [(dx, dy) for dx in range(-3, 4) for dy in range(-3, 4)]
+        for dx, dy in offsets:
+            temp_x_est, temp_y_est = central_x_est + dx, central_y_est + dy
+            
+            if 0 <= temp_y_est < mask.shape[0] and 0 <= temp_x_est < mask.shape[1]:
+                vert_val = mask[temp_y_est, temp_x_est]
+                if vert_val != 0:
+                    return vert_val
+        return None
+    else:
+        return vert_val
+
+def locate_vertebrae(mask, highest_vert_str, highest_vert_class, x, y, all_vertebrae = ["l1", "l2", "l3", "l4", "l5", "s1"]):
+    vertebrae_val = {v: 0 for v in all_vertebrae}
+    #Find the highest vertebrae to act as a reference point within the image, as to what vertebrae are present and their class number.
+    vert_val = find_vert_with_coords(mask, x, y)
+    if vert_val == None:
+        return None
+    #Align this with order now.
+    vert_val_dict = align_verts_to_val(highest_vert_str, vert_val)
+    return vert_val_dict
+
+def calculate_disc_bboxes(regions):
+    #Unpack lx and lx+1 vert bboxes.
+    bboxes = []
+    for i in range(len(regions) - 1):
+        top_u, left_u, bottom_u, right_u = regions[i] #Box above.
+        top_l, left_l, bottom_l, right_l = regions[i + 1] #Box below.
+        #Choose largest out of the x values, so nothing is missed.
+        bbox = bottom_u - 3, min(left_u, left_l), top_l + 3, max(right_u + 5, right_l + 5) #Add some height to the bbox to fill dead space created otherwise.
+        bboxes.append(bbox)
+    return bboxes
+
+def label_sag_mask(path, mask, chunk, classes, class_numbers_verts):    
+    chunk = chunk.sort_values("level").reset_index() #Sort down l1_l2 -> l5_s1.
+    x, y, level = chunk.x[0], chunk.y[0], chunk.level
+    highest_disc = level[0]
+    condition = chunk["condition"].values[0]
+    highest_vert_str, highest_vert_class = disc_to_vert_and_class(highest_disc, condition)
+
+    vert_val_dict = locate_vertebrae(mask, highest_vert_str, highest_vert_class, x, y) #Use these values to switch the values on the color mask to their respective class values.
+    if vert_val_dict is None:
+        #print("vert_val_dict is None.")
+        return None
+    for idx, vert_val in enumerate(vert_val_dict.values()):
+        mask[mask == vert_val] = class_numbers_verts[idx] #Won't line up due to them being about 20-30 difference.
+    #Assign all values but class_numbers and 0 to be a 1 (other_disc class).
+
+    class_mask = mask.copy().astype(int)
+    acceptable_vals = class_numbers_verts + [0]
+    filter_mask = ~np.isin(class_mask, acceptable_vals) #Makes all other detected islands of pixels as a default value.
+    class_mask[filter_mask] = 1 #~[0, 1, 32...37]
+
+    no_other_mask = class_mask.copy()
+    no_other_mask[no_other_mask == 1] = 0 #Make a copy of the classly labeled mask and remove the other_discs to simplify finding the disc regions between the vertebrae.
+    no_other_mask = no_other_mask.astype(int)
+    debug = np.unique(no_other_mask.copy())
+    no_verts = len(np.unique(no_other_mask)) - 1
+    regions = []
+    for i in np.unique(no_other_mask):
+        if i == 0:
+            continue
+        temp_mask = np.where(no_other_mask == i, i, 0)
+        region = regionprops(temp_mask)
+        regions.append(region[0].bbox)
+    disc_bboxes = calculate_disc_bboxes(regions)
+
+    #Using the class numbers and the bounding boxes, fill the class mask.
+    class_numbers = chunk["class_number"].to_list() #Will be the values to assign the discs to (top down).
+    def_discs = [2, 3, 4, 5, 6]
+    if "right" in condition:
+        def_discs = list(np.array(def_discs) + 15)
+
+    all_discs = {"l1_l2": 0, "l2_l3": 0, "l3_l4": 0, "l4_l5": 0, "l5_s1": 0}
+    for idx, disc in enumerate(all_discs.keys()):
+        disc_info = chunk[chunk["level"] == disc]
+        if disc_info.empty:
+            all_discs[disc] = def_discs[idx]
+        else:
+            all_discs[disc] = class_numbers[0]
+            class_numbers.remove(class_numbers[0])
+
+    passive_mask = np.zeros_like(class_mask)
+    class_numbers_padded = list(all_discs.values())
+    for idx, bbox in enumerate(disc_bboxes):
+        bottom, left, top, right = bbox
+        passive_mask[bottom:top, left:right] = class_numbers_padded[idx]
+    merged_mask = np.where(class_mask > 0, class_mask, passive_mask)                                #no_discs = no_vertebrae - 1.
+    if 2 * no_verts - 3 != len(np.unique(merged_mask)) - 2: #Must follow the equation no_vertebrae + no_discs - classes[0, 1] == unique - classes[0, 1].
+        return merged_mask, True
+    else:
+        return merged_mask, False
+
+
+def save_mask_as_png(mask, fname, new_folder):
+    assert mask.shape == (224, 224)
+    fname = fname.replace("nnUNet_segments", new_folder).replace("npy", "png")
+    save_folder = "/".join(fname.split('/')[:-1])
+    os.makedirs(save_folder, exist_ok=True)
+    mask = mask.astype(np.uint8)
+    mask_pil = Image.fromarray(mask)
+    mask_pil.save(fname)
+
+```
 
 
 
