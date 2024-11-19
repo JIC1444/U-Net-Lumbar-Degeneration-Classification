@@ -210,24 +210,21 @@ The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 s
 
 1. **Refine Training Data**:
    - For Sagittal T1 and T2, filter out unsatisfactory segmentation masks.
-   - Consider two approaches:
-     - Aggressively remove any imperfect masks.
-     - Filter out unrealistic masks that may negatively impact learning.
+   - Considering the two approaches:
+     - Aggressively removing any imperfect masks.
+     - Filtering masks that may negatively impact learning.
 
 2. **Augment Axial T2 Data**:
    - Use the Albumentations library to create a more balanced distribution across conditions and severities to improve performance.
 
-3. **Further Experimentation**:
-   - Test early stopping based on initial peak accuracy to potentially save GPU time.
+3. **Early Stopping**:
+   - Implement early stopping to save GPU time.
 
 ---
 
-### Final Thoughts
-
-This initial run provides a promising foundation with significant room for improvements, especially by refining the segmentation data quality. Future experimentation, particularly with data augmentation and more precise filtering, will likely yield better accuracy and segmentation quality across all s
 
 ### Second Run
-Taking the best performing group - Sagittal T2/STIR MRI scans, manually go through the segmentation masks and remove ones which may impact model performance, keeping imperfect ones. Now that the quality of the images has been increased, it can be observed whether the accuracy of the model is impacted by quality.
+The initial run gave a promising foundation, by refining the data quality, the performance should be improved! Taking the best performing group - Sagittal T2/STIR MRI scans, manually go through the segmentation masks and remove ones which may impact model performance, keeping imperfect ones. Collect the distribution of conditions, augmenting moderate and severe up to a higher percentage of the
 
 
 
@@ -247,9 +244,9 @@ Further work may include:
 ## Appendix: Algorithimically Segementing the Images
 This process goes from this mask, produced by the pretrained U-Net, to a this segmentation mask, ready to be fed into the classification model.
 <p align="center">
-<img src="" width="300">
-<img src="" width="300">
-<\p>
+    <img src="https://github.com/user-attachments/assets/ed4ecef9-680b-46b1-a6cb-8dae85d5daa8" width="300">
+    <img src="https://github.com/user-attachments/assets/8d7f8bf1-ab96-42b2-ac69-8d882e85db4c" width="300">
+</p>
 
 
 First, the general process this algorithm follows.
@@ -441,9 +438,8 @@ for idx, chunk in st1_class_df.groupby(["series_id", "instance_number"]):
         save_mask_as_png(sag_t1_mask, segment_path, 'nnUNet_segements_failed')
         fail_rates["Fail within loop"] = fail_rates["Fail within loop"] + 1
 print(fail_rates)
-
 ```
-
+An improvement of this model would be to increase the number of useful samples obtained from this algorithm, as over 60% of samples fed into the loop are rejected!
 
 
 
