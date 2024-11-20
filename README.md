@@ -78,7 +78,7 @@ Two files are provided with the respect to these images. One contains coordinate
   <img src="https://github.com/user-attachments/assets/6d857e34-20f8-4652-8265-29d0a5aae1a0" width="300">
 </p>
 
-_(Note: coordinates only exist if the condition is mild from the normal/mild class and of course if they are moderate or severe!)_
+_(Note: coordinates only exist if the condition is mild from the normal/mild class and if they are moderate or severe!)_
 
 
 # Issues with data availibility
@@ -105,10 +105,11 @@ The model struggled to even construct the segmentation mask, let alone predict w
 Where colouring the vertebrae grey, and the conditions, normal/mild, moderate and severe as green, blue and red respectivley makes for a better viewing experience.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/bc56dd8b-371b-4130-bfda-451b5a3a224a" width="200">
+  <img src="https://github.com/user-attachments/assets/8b77b372-d8a6-48c2-9837-2364d56073c7" width="200">
   <img src="https://github.com/user-attachments/assets/28aa1c2f-168e-40c0-a7ae-54c0e54e396b" width="200">
   <img src="https://github.com/user-attachments/assets/28d08632-bf6d-419c-b5a5-9c6d2d31967e" width="200">
-  <img src="https://github.com/user-attachments/assets/8b77b372-d8a6-48c2-9837-2364d56073c7" width="200">
+  <img src="https://github.com/user-attachments/assets/bc56dd8b-371b-4130-bfda-451b5a3a224a" width="200">
+
 </p>
 
 While this performance leaves alot to be desired, the results on such a small sample size are promising and the next step was to increase the amount of data by a factor of 600.
@@ -224,20 +225,20 @@ The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 s
 
 
 ### Second Run
-The initial run gave a promising foundation, by refining the data quality, the performance should be improved! Taking the best performing group - Sagittal T2/STIR MRI scans, manually go through the segmentation masks and remove ones which may impact model performance, keeping imperfect ones. Collect the distribution of conditions, augmenting moderate and severe up to a higher percentage of the
+The initial run gave a promising foundation, by refining the data quality, the performance should be improved. Taking the best performing group - Sagittal T2/STIR MRI scans, manually go through the segmentation masks and remove ones which may impact model performance, keeping imperfect ones. Collect the distribution of conditions, augmenting moderate and severe up to a higher percentage of the dataset. The training and validation dataset consisted of roughly 8000 images.
 
 
 
 
 
 ### Conclusions and further work
-While a great performance increase was observed from the original ResNet18 approach, it is important to remember that biomedical image segmentation requires a very high degree of accuracy, ensuring there are no misdiagnoses leading to confusion about their pain, or worse. I enjoyed learning about the advanced methods in segmentation and has most certainly improved my approach to deep learning problems - it is important to read others' research and look for way to improve performance on their work, or by combining multiple people's work together, rather than attempting to conquer the problem entirely by oneself.
+A performance increase of 10% to % was observed from the original ResNet18 approach, however it is important to remember that biomedical image segmentation requires a very high degree of accuracy, ensuring there are no misdiagnoses leading to confusion about a patients pain, or worse. I enjoyed learning about the advanced methods in segmentation and has significantlly improved my approach to deep learning problems - it is important to read others' research and look for way to improve performance on their work, or by combining multiple people's work together, rather than attempting to conquer the problem entirely solo.
 
 This project has increased my knowledge of computer vision and these models and ideas I have learnt through the project have wide applications in research and industry, for example - self-driving cars.
 
 Further work may include:
 - Improving the quality of the segmentation masks of the sagittal T1 and T2 MRI scans. Either by hand or using more data and a better pretrained U-Net.
-- When a suitable dataset for axial T2 images is available, performance on this pipeline will likely skyrocket.
+- If a suitable dataset for axial T2 images becomes available, performance on this pipeline will likely skyrocket.
 
 
 
