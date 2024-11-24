@@ -116,7 +116,7 @@ While this performance leaves alot to be desired, the results on such a small sa
 
 -------------------------------
 
-## First run
+## First run of nnU-Net on RSNA data
 First, every single segmentation my program successfully produced was fed into the nnUNet model, despite many incorrect and inaccurate masks. 
 The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 sagittal T2/STIR scans and ~12,000 axial T2 scans. All segmentation masks ranged in quality, as shown below:
 
@@ -127,23 +127,17 @@ The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 s
   <img src="" width="200">
 </p>
 
-## Initial Run of nnU-Net on Biomedical Image Classification Task
-
 ---
 
 ### Accuracy
 - **Sagittal T1 scans:** *43.7% accuracy*
 - **Sagittal T2/STIR scans:** *50.3% accuracy*
-- **Axial T2 scans:** *16.6% accuracy* on normal cases, 2.5% when including all classes
+- **Axial T2 scans:** *16.6% accuracy* on normal cases, >5% when including all classes
 - **Overall Accuracy:** *~47%* not considering the Axial scans or *~30%* when considered.
 
 ---
 
-### Results 
-
-#### Example Predictions:
-
-### Two pairs of label/prediction images for Sagittal T1 scans:
+### Label-Prediction Pairs of Sagittal T1 scans:
 <p align="center">
   <img src="https://github.com/user-attachments/assets/c35b3a9d-45d1-4fa9-9ea0-fb92af31234b" width="200">
   <img src="https://github.com/user-attachments/assets/001e7724-74c7-4716-9b24-96511abcbb8a" width="200">
@@ -166,7 +160,7 @@ The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 s
 
 ---
 
-#### Sagittal T2/STIR Scans
+### Label-Prediction Pairs of Sagittal T2/STIR Scans:
 <p align="center">
   <img src="" width="200">
   <img src="" width="200">    
@@ -187,16 +181,16 @@ The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 s
 
 #### Axial T2 Scans
 - **Observations:**
-    - Low accuracy (2.5%) across nearly 40 classes using only basic segmentation labels, suggesting the need for better-quality segmentation data.
+    - Low accuracy >5% across nearly 40 classes using only basic segmentation labels, suggesting the need for better-quality segmentation data.
     - Even basic segmentation masks heavily impact model performance, underscoring the potential value of a high-quality, widely available biomedical segmentation dataset.
   
-> **Note:** Going forward, the Axial MRI scans will no longer be considered, due to this roadblock of no segmentations.
+> **Note:** Going forward, the Axial MRI scans will no longer be considered, due to this roadblock of having no segmentations.
 
 ---
 
 ### Runtime and Efficiency
 - **Total CPU Runtime:** ~2 hours, dedicated to pretraining the U-Net and preprocessing MRI scans. 
-- **Total GPU Runtime:** ~16 hours. However the best model accuracy was achieved earlier in the training, if early stopping was implemented, the training time was around 10 hours. 
+- **Total GPU Runtime:** ~16 hours. However the best model accuracy was achieved earlier in the training, if early stopping was implemented, the training time would be around 10 hours. 
 ---
 
 ### Additional Observations
@@ -224,14 +218,16 @@ The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 s
 ---
 
 
-### Second Run
+## Second Run of nnU-Net on RSNA (Sagittal T2 Scans)
 The initial run gave a promising foundation, by refining the data quality, the performance should be improved. Taking the best performing group - Sagittal T2/STIR MRI scans, manually go through the segmentation masks and remove ones which may impact model performance, keeping imperfect ones. Collect the distribution of conditions, augmenting moderate and severe up to a higher percentage of the dataset. The training and validation dataset consisted of roughly 8000 images.
 
+### This increase in image variation, as well as a better distributed dataset led to % accuracy rate.
+
+### Label-Prediction Pairs on the new dataset.
 
 
 
-
-### Conclusions and further work
+## Conclusions and further work
 A performance increase of 10% to % was observed from the original ResNet18 approach, however it is important to remember that biomedical image segmentation requires a very high degree of accuracy, ensuring there are no misdiagnoses leading to confusion about a patients pain, or worse. I enjoyed learning about the advanced methods in segmentation and has significantlly improved my approach to deep learning problems - it is important to read others' research and look for way to improve performance on their work, or by combining multiple people's work together, rather than attempting to conquer the problem entirely solo.
 
 This project has increased my knowledge of computer vision and these models and ideas I have learnt through the project have wide applications in research and industry, for example - self-driving cars.
