@@ -239,7 +239,7 @@ The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 s
 ## Second Run of nnU-Net on RSNA (Sagittal T2 Scans)
 The initial run gave a promising foundation, by refining the data quality, the performance should be improved. Taking the best performing group - Sagittal T2/STIR MRI scans, manually go through the segmentation masks and remove ones which may impact model performance, keeping imperfect ones. Collect the distribution of conditions, augmenting moderate and severe up to a higher percentage of the dataset. The training and validation dataset consisted of roughly 8000 images.
 
-#### This increase in image variation, as well as a better distributed dataset led to a ~70% Dice score.
+#### This increase in image variation, as well as a better distributed dataset led to a ~60% Dice score.
 
 ### Examples of label-prediction-overlays on the new Sagittal T2/STIR classifier.
 
@@ -256,7 +256,7 @@ The initial run gave a promising foundation, by refining the data quality, the p
 </p>
 
 ## Conclusions and further work
-A performance increase of 10% to 70% was observed from the original ResNet18 approach, which is a result I am proud of. However it is important to remember that biomedical image segmentation requires a very high degree of accuracy, ensuring there are no misdiagnoses leading to confusion for a patient, or worse. I enjoyed learning about the advanced methods in segmentation and has significantlly improved my approach to deep learning problems - it is important to read others' research and look for way to improve performance on their work, or by combining multiple people's work together, rather than attempting to conquer the problem entirely solo.
+A performance increase of 10% to 60% was observed from the original ResNet18 approach, which is a result I am proud of. However it is important to remember that biomedical image segmentation requires a very high degree of accuracy, ensuring there are no misdiagnoses leading to confusion for a patient, or worse. I enjoyed learning about the advanced methods in segmentation and has significantlly improved my approach to deep learning problems - it is important to read others' research and look for way to improve performance on their work, or by combining multiple people's work together, rather than attempting to conquer the problem entirely solo.
 
 This project has increased my knowledge of computer vision and these models and ideas I have learnt through the project have wide applications in research and industry, for example - self-driving cars.
 
