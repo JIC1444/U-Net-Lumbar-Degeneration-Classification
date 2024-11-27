@@ -127,11 +127,15 @@ First, every single segmentation my program successfully produced was fed into t
 The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 sagittal T2/STIR scans and ~12,000 axial T2 scans. All segmentation masks ranged in quality, as shown below (good/bad Sagittal T1 masks, good/bad Sagittal T2 masks, standard Axial T2 mask):
 
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/f9bcb8dc-9b69-4c4d-b102-b0e7d49fae28" width="150" >
-    <img src="https://github.com/user-attachments/assets/d159189d-57d1-4b47-99cb-e10a6f40e7e6" width="150">    
-    <img src="https://github.com/user-attachments/assets/1765af7d-a347-4ad1-89ca-bbcbb829b547" width="150">
-    <img src="https://github.com/user-attachments/assets/5dca35a2-1909-49cc-ac32-fa1840b477a7" width="150">
-    <img src="https://github.com/user-attachments/assets/11d39120-51a2-4013-a2c1-36774422851d" width="150">
+    <img src="https://github.com/user-attachments/assets/f9bcb8dc-9b69-4c4d-b102-b0e7d49fae28" width="200">
+    <img src="https://github.com/user-attachments/assets/d159189d-57d1-4b47-99cb-e10a6f40e7e6" width="200"> 
+    <img src="https://github.com/user-attachments/assets/1765af7d-a347-4ad1-89ca-bbcbb829b547" width="200">
+</p>
+
+
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/5dca35a2-1909-49cc-ac32-fa1840b477a7" width="200">
+    <img src="https://github.com/user-attachments/assets/11d39120-51a2-4013-a2c1-36774422851d" width="200">
 </p>
 
 
@@ -197,7 +201,7 @@ The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 s
 
 ---
 
-#### Axial T2 Scans
+### Axial T2 Scans
 - **Observations:**
     - Low Dice >5% across nearly 40 classes using only basic segmentation labels, suggesting the need for better-quality segmentation data.
     - Even basic segmentation masks heavily impact model performance, underscoring the potential value of a high-quality, widely available biomedical segmentation dataset.
@@ -213,9 +217,11 @@ The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 s
 
 ### Additional Observations
 
-- **NaN and 0.0 Values in Pseudo Dice**: 
+- **NaN and 0.0 Values in Pseudo Dice** observed when training:
   - **NaN Values**: Indicate that specific classes were not present in any training examples.
   - **0.0 Values**: Suggest a mix of limited data for some classes and difficulty distinguishing specific features. Likely caused by the inherent complexity of the classes or insufficient data for those classes.
+ 
+This leads to the next section where the effects of this are attempted to minimised.
 
 ---
 
@@ -260,9 +266,9 @@ A performance increase of 10% to 60% was observed from the original ResNet18 app
 
 This project has increased my knowledge of computer vision and these models and ideas I have learnt through the project have wide applications in research and industry, for example - self-driving cars.
 
-Further work may include:
-- Improving the quality of the segmentation masks of the sagittal T1 and T2 MRI scans. Either by hand or using more data and a better pretrained U-Net.
-- If a suitable dataset for axial T2 images becomes available, performance on this pipeline will likely skyrocket.
+Further work:
+- Improving the quality and the quantity of the segmentation masks of the sagittal T1 and T2 MRI scans. Ideally with a better trained U-Net or even an nnU-Net, since only about a third of the sagittal MRIs made it through the algorithmic segmentation process.
+- If a suitable dataset for axial T2 images becomes available, performance on this pipeline will certainly lead to massive gains in predictive power.
 
 
 
