@@ -239,35 +239,30 @@ The initial run gave a promising foundation, by refining the data quality, the p
 ### Examples of input-prediction overlays on the new Sagittal T2/STIR classifier.
 
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/c4a359fc-b7b1-4cf4-9ce4-e02364f3a7ac" width="250">
-    <img src="https://github.com/user-attachments/assets/2091495c-4869-4110-b98d-2adb4c13e5df" width="250">  
+    <img src="https://github.com/user-attachments/assets/c4a359fc-b7b1-4cf4-9ce4-e02364f3a7ac" width="200">
+    <img src="https://github.com/user-attachments/assets/2091495c-4869-4110-b98d-2adb4c13e5df" width="200">  
+    <img src="https://github.com/user-attachments/assets/5bdd6ba6-0d0a-4784-b8bf-a44a4c828102" width="200">
+    <img src="https://github.com/user-attachments/assets/e4371d8e-dc58-44f9-9f59-d3706aa41411" width="200">
 </p>
 
+---
 
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/5bdd6ba6-0d0a-4784-b8bf-a44a4c828102" width="250">
-    <img src="https://github.com/user-attachments/assets/e4371d8e-dc58-44f9-9f59-d3706aa41411" width="250">
+    <img src="https://github.com/user-attachments/assets/e254cc3c-5b05-4696-9f80-fbcba45a7895" width="200">
+    <img src="https://github.com/user-attachments/assets/fa021719-64af-4543-b7f0-43d2f593c8f9" width="200">
+    <img src="https://github.com/user-attachments/assets/a81a4ae5-6e58-4c2e-8d71-52fa0be9decb" width="200">
+    <img src="https://github.com/user-attachments/assets/47f39f4c-97b7-487e-b973-3ab78b7d12f2" width="200">
 </p>
 
+---
 
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/e254cc3c-5b05-4696-9f80-fbcba45a7895" width="250">
-    <img src="https://github.com/user-attachments/assets/fa021719-64af-4543-b7f0-43d2f593c8f9" width="250">
-</p>
-
-<p align="center">
-    <img src="https://github.com/user-attachments/assets/a81a4ae5-6e58-4c2e-8d71-52fa0be9decb" width="250">
-    <img src="https://github.com/user-attachments/assets/47f39f4c-97b7-487e-b973-3ab78b7d12f2" width="250">
+    <img src="https://github.com/user-attachments/assets/48c07e93-51e3-4167-93bf-9934e04573a3" width="200">
+    <img src="https://github.com/user-attachments/assets/356f4fed-8b2c-4544-97b7-cc0588cfaf9b" width="200">
 </p>
 
 
-<p align="center">
-    <img src="https://github.com/user-attachments/assets/48c07e93-51e3-4167-93bf-9934e04573a3" width="250">
-    <img src="https://github.com/user-attachments/assets/356f4fed-8b2c-4544-97b7-cc0588cfaf9b" width="250">
-</p>
-
-
-Interestingly, while the model achieved a higher accuracy, the same smoothing effect didnt happen on the segmentation masks, this m
+Interestingly, while the model achieved a higher accuracy, the same smoothing effect didnt happen on the segmentation masks! Perhaps the greater training pool led to the predictions being more like the input, or perhaps the model needed further training.
 
 ### Runtime and Efficiency
 - **Total GPU Runtime:** ~12 hours.
