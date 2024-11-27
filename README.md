@@ -177,18 +177,7 @@ The train and validation dataset consisted of ~3,000 sagittal T1 scans, ~2,000 s
 
 ---
 
-### Examples of label-prediction-overlay of Sagittal T2/STIR Scans:
-<p align="center">
-    <img src="" width="200">
-    <img src="" width="200">  
-    <img src="" width="200">  
-</p>
-
-<p align="center">
-    <img src="" width="200">
-    <img src="" width="200">
-    <img src="" width="200">  
-</p>
+### Sagittal T2/STIR Scans
 
 - **Observations**:
   - Improved performance compared to Sagittal T1 scans, the pre-training dataset consisted of only Sagittal T2/STIR scans, potentially leading to more accurate segmentation masks of the Sagittal T2 type.
@@ -247,19 +236,52 @@ The initial run gave a promising foundation, by refining the data quality, the p
 
 #### This increase in image variation, as well as a better distributed dataset led to a ~60% Dice score.
 
-### Examples of label-prediction-overlays on the new Sagittal T2/STIR classifier.
+### Examples of input-prediction overlays on the new Sagittal T2/STIR classifier.
 
 <p align="center">
-    <img src="" width="200">
-    <img src="" width="200">  
-    <img src="" width="200">  
+    <img src="https://github.com/user-attachments/assets/c4a359fc-b7b1-4cf4-9ce4-e02364f3a7ac" width="250">
+    <img src="https://github.com/user-attachments/assets/2091495c-4869-4110-b98d-2adb4c13e5df" width="250">  
+</p>
+
+
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/5bdd6ba6-0d0a-4784-b8bf-a44a4c828102" width="250">
+    <img src="https://github.com/user-attachments/assets/e4371d8e-dc58-44f9-9f59-d3706aa41411" width="250">
+</p>
+
+
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/e254cc3c-5b05-4696-9f80-fbcba45a7895" width="250">
+    <img src="https://github.com/user-attachments/assets/fa021719-64af-4543-b7f0-43d2f593c8f9" width="250">
 </p>
 
 <p align="center">
-    <img src="" width="200">
-    <img src="" width="200">
-    <img src="" width="200">  
+    <img src="https://github.com/user-attachments/assets/a81a4ae5-6e58-4c2e-8d71-52fa0be9decb" width="250">
+    <img src="https://github.com/user-attachments/assets/47f39f4c-97b7-487e-b973-3ab78b7d12f2" width="250">
 </p>
+
+
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/48c07e93-51e3-4167-93bf-9934e04573a3" width="250">
+    <img src="https://github.com/user-attachments/assets/356f4fed-8b2c-4544-97b7-cc0588cfaf9b" width="250">
+</p>
+
+
+Interestingly, while the model achieved a higher accuracy, the same smoothing effect didnt happen on the segmentation masks, this m
+
+### Runtime and Efficiency
+- **Total GPU Runtime:** ~12 hours.
+  
+---
+
+### Additional Observations
+
+- **NaN Values**: No NaN values, indicating that there was a sample of every single condition and severity.
+- **0.0 Values**: Only one 0.0 value, in the severe cases for disc l3_l4, the model will not ever recognise this.
+- **Dice score**: This was the Dice score after 12 hours, however it did not seem to plateau, so running this model further may produce a more accuracte model.
+ 
+---
+
 
 ## Conclusions and further work
 A performance increase of 10% to 60% was observed from the original ResNet18 approach, which is a result I am proud of. However it is important to remember that biomedical image segmentation requires a very high degree of accuracy, ensuring there are no misdiagnoses leading to confusion for a patient, or worse. I enjoyed learning about the advanced methods in segmentation and has significantlly improved my approach to deep learning problems - it is important to read others' research and look for way to improve performance on their work, or by combining multiple people's work together, rather than attempting to conquer the problem entirely solo.
