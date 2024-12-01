@@ -262,18 +262,17 @@ The initial run gave a promising foundation, by refining the data quality, the p
 </p>
 
 
-Interestingly, while the model achieved a higher accuracy, the same smoothing effect didnt happen on the segmentation masks! Perhaps the greater training pool led to the predictions being more like the input, or perhaps the model needed further training.
+Interestingly, while the model achieved a higher accuracy, the same smoothing effect didnt happen on the segmentation masks! Perhaps the greater training pool led to the predictions being more like the input, or perhaps the model needed further training. The training curve suggested that the model had not generalised yet and that further training could be done to improve the accuracy further.
 
 ### Runtime and Efficiency
-- **Total GPU Runtime:** ~12 hours.
+- **Total GPU Runtime:** ~40 hours.
   
 ---
 
 ### Additional Observations
 
-- **NaN Values**: No NaN values, indicating that there was a sample of every single condition and severity.
-- **0.0 Values**: Only one 0.0 value, in the severe cases for disc l3_l4, the model will not ever recognise this.
-- **Dice score**: This was the Dice score after 12 hours, however it did not seem to plateau, so running this model further may produce a more accuracte model.
+- **Dice score**: This was the Dice score after 24 hours, however it did not seem to plateau, so running this model further may produce a more accuracte model.
+- **Compute time**: A much higher compute time was necessary (4x12hr kaggle GPU sessions), however around 10 of these hours were wasted as the nnU-Net checkpoints happen every 50 epochs, leading to these wasted hours.
  
 ---
 
@@ -285,6 +284,7 @@ This project has increased my knowledge of computer vision and these models and 
 
 Further work:
 - Improving the quality and the quantity of the segmentation masks of the sagittal T1 and T2 MRI scans. Ideally with a better trained U-Net or even an nnU-Net, since only about a third of the sagittal MRIs made it through the algorithmic segmentation process.
+- Trial and error of the augmentations for the data, 8000 led to a good performance but a long time of convergence, perhaps there is a better balance to be struck between these components.
 - If a suitable dataset for axial T2 images becomes available, performance on this pipeline will certainly lead to massive gains in predictive power.
 
 
