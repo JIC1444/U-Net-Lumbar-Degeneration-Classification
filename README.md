@@ -278,9 +278,7 @@ Interestingly, while the model achieved a higher accuracy, the same smoothing ef
 
 
 ## Conclusions and further work
-A performance increase of 10% to 66% was observed from the original ResNet18 approach, which is a result I am proud of. However it is important to remember that biomedical image segmentation requires a very high degree of accuracy, ensuring there are no misdiagnoses leading to confusion for a patient, or worse. I enjoyed learning about the advanced methods in segmentation and has significantlly improved my approach to deep learning problems - it is important to read others' research and look for way to improve performance on their work, or by combining multiple people's work together, rather than attempting to conquer the problem entirely solo.
-
-This project has increased my knowledge of computer vision and these models and ideas I have learnt through the project have wide applications in research and industry, for example - self-driving cars.
+A performance increase of 10% to 66% was observed from the original ResNet18 approach, which is a result I am proud of. However it is important to remember that biomedical image segmentation requires a very high degree of accuracy, ensuring there are a minimised number of false positives/negative diagnoses. I enjoyed learning about the advanced methods in segmentation and has significantlly improved my approach to deep learning problems - it is important to read others' research and look for way to improve performance on their work, or by combining multiple people's work together, rather than attempting to conquer the problem on one's own. The project has also increased my knowledge of computer vision and these models and ideas I have learnt through the project have wide applications in research and industry.
 
 Further work:
 - Improving the quality and the quantity of the segmentation masks of the sagittal T1 and T2 MRI scans. Ideally with a better trained U-Net or even an nnU-Net, since only about a third of the sagittal MRIs made it through the algorithmic segmentation process.
