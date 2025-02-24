@@ -1,9 +1,12 @@
-# Radiological Society of North America (RSNA) Lumbar Degeneration Classification Competition
+# Lumbar Degeneration Classification on MRI Images of The Spine
 
 # Overview
-The lumbar reigion of the spine is a major cause of pain and disability worldwide, infact it is the leading cause of disability with around 600 million people suffering from the varying conditions arising from degeneration in the lumbar discs. The RSNA hosted this competition from June-September 2024 with the hopes that “Competitors will ... build algorithms that advance our ability to accurately and rapidly identify and classify lumbar degenerative spine disease. Such tools have the potential to improve current state-of-the art technology and transform the future of degenerative spine diagnosis and management”. 
+The lumbar reigion of the spine is the leading cause of disability with around 600 million people suffering from the varying conditions arising from degeneration in the lumbar discs. Hence why the RSNA (Radiological Society of North America) curated the largest public dataset consisting of X thousand patients, with a total of X hundred thousand labelled MRI scans.
 
 The goal for the entrants of the competition is to use deep learning methods to accurately and reliably predict whether the patient has lumbar degeneration as well as the level of severity of said condition. The RSNA provides a dataset of 1,975 studies-worth of MRI scans with three differing types: Sagittal T1, Sagittal T2/STIR and Axial T2 (each study has 50 or more scans).
+
+# Final Results
+
 
 ----------------------
 
